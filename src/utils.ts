@@ -186,14 +186,14 @@ export const mergeCreateData = (
             } else if (relationPermissions.read === false) {
               return transformValue(actionValue, (value) => {
                 return {
-                  create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, value),
+                  create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, value.create),
                   where: mergeWhereUnique(fieldsMap, relationModelName, value.where, generateImpossibleWhere(fieldsMap[relationModelName])),
                 };
               });
             } else if (relationPermissions.read !== true) {
               return transformValue(actionValue, (value) => {
                 return {
-                  create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, value),
+                  create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, value.create),
                   where: mergeWhereUnique(fieldsMap, relationModelName, value.where, resolveWhere(relationPermissions.read, context)),
                 };
               });
@@ -236,17 +236,17 @@ export const mergeCreateData = (
               throw new Error("Not authorized");
             } else if (relationPermissions.read === false) {
               return {
-                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue),
+                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue.create),
                 where: mergeWhereUnique(fieldsMap, relationModelName, actionValue.where, generateImpossibleWhere(fieldsMap[relationModelName])),
               };
             } else if (relationPermissions.read !== true) {
               return {
-                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue),
+                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue.create),
                 where: mergeWhereUnique(fieldsMap, relationModelName, actionValue.where, resolveWhere(relationPermissions.read, context)),
               };
             } else {
               return {
-                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue),
+                create: mergeCreateData(permissionsConfig, context, fieldsMap, relationModelName, actionValue.create),
                 where: actionValue.where,
               };
             }
